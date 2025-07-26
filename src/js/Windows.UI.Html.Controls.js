@@ -614,7 +614,7 @@ document.querySelectorAll("[reveal-hover=true]").forEach((r) => {
 });
 //    </HoverLight>
 //    <BorderLight>
-const offset = 75;
+const offset = 65;
 const OFFSET_SQUARED = offset * offset;
 let activeElements = new Set();
 let lastMousePosition = { x: null, y: null };
