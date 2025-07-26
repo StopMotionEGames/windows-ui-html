@@ -296,7 +296,7 @@ wuhc-progressring {
   border-style: solid;
   border-color: #0000;
   background: radial-gradient(circle at var(--bx) var(--by),
-      rgba(255, 255, 255, 0.23) 10px, rgba(255, 255, 255, 0.18) 18px, #0000 80px) border-box;
+      rgba(255, 255, 255, 0.3) 8px, rgba(255, 255, 255, 0.25) 13px, #0000 65px) border-box;
   mask: linear-gradient(#fff, #fff) padding-box,
     linear-gradient(#fff, #fff);
   mask-composite: exclude;
