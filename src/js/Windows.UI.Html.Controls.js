@@ -1,6 +1,6 @@
 // just to link the CSS
 let wuhc_style = document.createElement("link");
-wuhc_style.href = "./src/styles/Windows.UI.Html.Controls.css";
+wuhc_style.href = "/src/styles/Windows.UI.Html.Controls.css";
 wuhc_style.rel = "stylesheet";
 document.head.appendChild(wuhc_style);
 wuhc_style = null;
