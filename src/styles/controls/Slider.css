@@ -124,6 +124,7 @@ wuhc-slider {
   wuhc-slider input {
     background-color: var(--SliderTrackFill);
     height: 2px;
+    margin-block: 11px;
 
     &:hover:not(:active):not(:disabled) {
       background-color: var(--SliderTrackFillPointerOver);
