@@ -1,0 +1,17 @@
+@font-face {
+  font-family: S-MDL2-Assets;
+  src: url(../fonts/SEGMDL2.TTF);
+}
+
+wuhc-fonticon {
+  font-family: S-MDL2-Assets;
+  display: inline;
+  font-size: inherit;
+
+  &[icon="CheckGlyph"]::before {
+    content: "\E001";
+  }
+  &[icon="CheckMark"]::before {
+    content: "\E73E";
+  }
+}
