@@ -1,0 +1,23 @@
+/* Adds a cool effect in slower devices (controls being added slowly when js connect the nodes to the custom ellements) */
+input {
+  appearance: none;
+  display: none;
+}
+
+button {
+  appearance: none;
+  display: none;
+}
+
+:focus-visible {
+  outline: var(--SystemControlForegroundBaseHighBrush) 2px solid;
+  outline-offset: 4px;
+}
+
+wuhc-window {
+  top: 0;
+  left: 0;
+  width: 100dvw;
+  height: 100dvh;
+  transition: background .5s;
+}

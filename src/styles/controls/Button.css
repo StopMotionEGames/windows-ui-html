@@ -1,0 +1,35 @@
+button[is="wuhc-button"] {
+  --border-width: var(--ButtonBorderThemeThickness);
+  display: inline-block;
+  background-color: var(--ButtonBackground);
+  color: var(--ButtonForeground);
+  border-color: var(--ButtonBorderBrush);
+  border-width: var(--border-width);
+  border-style: solid;
+  padding: var(--ButtonPadding);
+  font-family: var(--ControlContentThemeFontFamily);
+  font-size: var(--ControlContentThemeFontSize);
+  font-weight: normal;
+  transition: scale 0.2s linear;
+  position: relative;
+
+  &:hover {
+    background-color: var(--ButtonBackgroundPointerOver);
+    border-color: var(--ButtonBorderBrushPointerOver);
+    color: var(--ButtonForegroundPointerOver);
+  }
+
+  &:active:not(:disabled) {
+    background-color: var(--ButtonBackgroundPressed);
+    border-color: var(--ButtonBorderBrushPressed);
+    color: var(--ButtonForegroundPressed);
+    scale: 0.98;
+    transition: scale 0s linear;
+  }
+
+  &:disabled {
+    background-color: var(--ButtonBackgroundDisabled);
+    border-color: var(--ButtonBorderBrushDisabled);
+    color: var(--ButtonForegroundDisabled);
+  }
+}

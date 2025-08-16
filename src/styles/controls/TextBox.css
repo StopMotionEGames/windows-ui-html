@@ -1,0 +1,26 @@
+wuhc-textbox {
+  display: flex;
+  background-color: var(--TextControlBackground);
+  border-color: var(--TextControlBorderBrush);
+  border-width: var(--TextControlBorderThemeThickness);
+  border-style: solid;
+
+  &::selection {
+    background-color: var(--TextControlSelectionHighlightColor);
+  }
+  
+  input {
+    display: inline-block;
+    outline: none !important;
+    width: stretch;
+    height: stretch;
+    width: -moz-available;
+    width: -moz-available;
+    font-family: var(--ContentControlThemeFontFamily);
+    font-size: var(--ControlContentThemeFontSize);
+    padding: var(--TextControlThemePadding);
+    border: none;
+    background: none;
+    color: var(--TextControlForeground);
+  }
+}

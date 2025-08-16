@@ -1,0 +1,140 @@
+wuhc-slider {
+  display: block;
+
+  input {
+    appearance: none;
+    display: block;
+    width: 100%;
+    margin: 0;
+    background-color: #0000;
+
+    &::-webkit-slider-container {
+      padding-block: 11px;
+    }
+
+    &::-webkit-slider-runnable-track {
+      height: 2px;
+      background-color: var(--SliderTrackFill);
+      background-image: linear-gradient(90deg,
+          var(--SliderTrackValueFill) var(--value),
+          #0000 var(--value));
+    }
+
+    &::-webkit-slider-thumb {
+      position: relative;
+      appearance: none;
+      bottom: 11px;
+      width: 8px;
+      height: 24px;
+      border-radius: 4px;
+      background-color: var(--SliderThumbBackground);
+      cursor: pointer;
+      user-select: none;
+      border: none;
+      cursor: default;
+    }
+
+    &::-moz-range-track {
+      padding-block: 12px;
+    }
+
+    &::-moz-range-progress {
+      background-color: var(--SliderTrackValueFill);
+      height: 2px;
+    }
+
+    &::-moz-range-thumb {
+      width: 8px;
+      height: 24px;
+      appearance: none;
+      border-radius: 100px;
+      background-color: var(--SliderThumbBackground);
+      cursor: pointer;
+      user-select: none;
+      border: none;
+      cursor: default;
+    }
+
+    &:hover:not(:active):not(:disabled) {
+      &::-webkit-slider-runnable-track {
+        background-color: var(--SliderTrackFillPointerOver);
+        background-image: linear-gradient(90deg,
+            var(--SliderTrackValueFillPointerOver) var(--value),
+            #0000 var(--value));
+      }
+
+      &::-webkit-slider-thumb {
+        background-color: var(--SliderThumbBackgroundPointerOver);
+      }
+
+      &::-moz-range-progress {
+        background-color: var(--SliderTrackValueFillPointerOver);
+      }
+
+      &::-moz-range-thumb {
+        background-color: var(--SliderThumbBackgroundPointerOver);
+      }
+    }
+
+    &:active:not(:disabled) {
+      &::-webkit-slider-runnable-track {
+        background-color: var(--SliderTrackFillPressed);
+        background-image: linear-gradient(90deg,
+            var(--SliderTrackValueFillPressed) var(--value),
+            #0000 var(--value));
+      }
+
+      &::-webkit-slider-thumb {
+        background-color: var(--SliderThumbBackgroundPressed);
+      }
+
+      &::-moz-range-progress {
+        background-color: var(--SliderTrackValueFillPressed);
+      }
+
+      &::-moz-range-thumb {
+        background-color: var(--SliderThumbBackgroundPressed);
+      }
+    }
+
+    &:disabled {
+      &::-webkit-slider-runnable-track {
+        background-color: var(--SliderTrackFillDisabled);
+        background-image: linear-gradient(90deg,
+            var(--SliderTrackValueFillDisabled) var(--value),
+            #0000 var(--value));
+      }
+
+      &::-webkit-slider-thumb {
+        background-color: var(--SliderThumbBackgroundDisabled);
+      }
+
+      &::-moz-range-progress {
+        background-color: var(--SliderTrackValueFillDisabled);
+      }
+
+      &::-moz-range-thumb {
+        background-color: var(--SliderThumbBackgroundDisabled);
+      }
+    }
+  }
+}
+
+@supports (-moz-user-select: -moz-none) {
+  wuhc-slider input {
+    background-color: var(--SliderTrackFill);
+    height: 2px;
+
+    &:hover:not(:active):not(:disabled) {
+      background-color: var(--SliderTrackFillPointerOver);
+    }
+
+    &:active:not(:disabled) {
+      background-color: var(--SliderTrackFillPressed);
+    }
+
+    &:disabled {
+      background-color: var(--SliderTrackFillDisabled);
+    }
+  }
+}
