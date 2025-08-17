@@ -5,6 +5,7 @@ import ProgressRing from "./js/controls/ProgressRing.js";
 import Slider from "./js/controls/Slider.js";
 import TextBox from "./js/controls/TextBox.js";
 import { loadStyles } from "./js/core/StyleLoader.js";
+import PlatformFilter from "./js/features/PlatformSpecific.js";
 import RevealLight from "./js/features/RevealLight.js";
 import WuhcNodeRegistry from "./js/features/WuhcNodeRegistry.js";
 
@@ -39,4 +40,5 @@ globalThis.debug = true; // if true, console logs are enabled
   // Initialize features
   WuhcNodeRegistry.init();
   RevealLight.init()
+  PlatformFilter.init();
 })();
