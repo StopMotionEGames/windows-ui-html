@@ -5,7 +5,7 @@ import ProgressRing from "./js/controls/ProgressRing.js";
 import Slider from "./js/controls/Slider.js";
 import TextBox from "./js/controls/TextBox.js";
 import { loadStyles } from "./js/core/StyleLoader.js";
-import PlatformFilter from "./js/features/PlatformSpecific.js";
+import PlatformFilter from "./js/features/PlatformFilter.js";
 import RevealLight from "./js/features/RevealLight.js";
 import WuhcNodeRegistry from "./js/features/WuhcNodeRegistry.js";
 
