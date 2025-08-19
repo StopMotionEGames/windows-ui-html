@@ -63,7 +63,7 @@ export default class ProgressBar extends HTMLElement {
     return this.getAttribute("isindeterminate") === "true" ? true : false;
   }
   set IsIndeterminate(boolean) {
-    this.setAttribute("isindeterminate", boolean ? "true" : "false");
+    this.setAttribute("isindeterminate", `${boolean}`);
   }
   get Maximum() {
     return Number(this.getAttribute("maximum")) || 100;
