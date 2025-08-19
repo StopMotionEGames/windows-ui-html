@@ -61,14 +61,11 @@ export default class Checkbox extends HTMLElement {
     this.setAttribute("height", `${number}`);
   }
   get IsChecked() {
-    return this.getAttribute("ischecked") === "true"
-      ? true
-      : this.getAttribute("ischecked") === "false"
-      ? false
-      : this.chkbx.checked || null;
+    if (!this._initialized) return this.getAttribute("ischecked") === "true";
+    return this.chkbx.checked;
   }
-  set IsChecked(bool) {
-    this.setAttribute("ischecked", bool ? true : false);
+  set IsChecked(boolean) {
+    this.setAttribute("ischecked", `${boolean}`);
   }
   get IsEnabled() {
     return this.getAttribute("isenabled") === "true"
