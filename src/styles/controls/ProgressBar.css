@@ -3,9 +3,14 @@ wuhc-progressbar {
   --border-key-1: -50px;
   --border-key-2-3: 0;
   --border-key-4: 100px;
+  --border-width: var(--ProgressBarBorderThemeThickness);
+  border-width: var(--ProgressBarBorderThemeThickness);
   display: flex;
   min-height: var(--ProgressBarThemeMinHeight);
+  border-color: var(--SystemControlHighlightTransparentBrush);
+  border-style: solid;
   overflow: hidden;
+  color: var(--SystemControlHighlightAccentBrush);
 
   #DeterminateRoot,
   #IndeterminateRoot {
@@ -57,7 +62,7 @@ wuhc-progressbar {
     background-color: currentColor;
   }
 
-  &[isindeterminate="true"] {
+  &:state(--indeterminate) {
     #DeterminateRoot {
       display: none;
       visibility: collapse;
