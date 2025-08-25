@@ -1,5 +1,5 @@
 // core/StyleLoader.js
-export async function loadStyles(styles) {
+export default async function loadStyles(styles) {
   const stylesDir = "/src/styles/";
   
   for (const style of styles) {
