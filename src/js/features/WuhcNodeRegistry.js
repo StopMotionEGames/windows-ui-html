@@ -1,16 +1,15 @@
-import { isValidVariableName } from "../core/Utilities.js";
+import Utilities from "../core/Utilities.js";
 
+globalThis.wuhc_nodes = new Object();
 export default class WuhcNodeRegistry {
   static #initialized = false;
   static init() {
     if (this.#initialized) {
-      if (debug) console.warn("WuhcNodeRegistry was already initialized.");
+      if (generalLogs)
+        console.warn("WuhcNodeRegistry was already initialized.");
       return;
     }
-    globalThis.wuhc_nodes = new Object();
 
-    // Registra os nós no DOM
-    // Executa quando o DOM estiver pronto
     if (document.readyState === "loading")
       document.addEventListener(
         "DOMContentLoaded",
@@ -27,12 +26,9 @@ export default class WuhcNodeRegistry {
 
       if (!name) return;
 
-      if (isValidVariableName(name)) {
+      if (Utilities.IsValidVariableName(name)) {
         // Adiciona ao contexto global
         wuhc_nodes[name] = element;
-
-        // Opcional: expõe como variável global (use com cautela)
-        // window[name] = element;
       } else {
         console.warn(
           `[x:name inválido] '${name}' não pode ser usado como identificador`

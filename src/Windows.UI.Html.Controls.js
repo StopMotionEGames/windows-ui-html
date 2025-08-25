@@ -16,10 +16,16 @@ import PlatformFilter from "./js/features/PlatformFilter.js";
 import RevealLight from "./js/features/RevealLight.js";
 import WuhcNodeRegistry from "./js/features/WuhcNodeRegistry.js";
 
+globalThis.generalLogs =
+  document.documentElement.hasAttribute("general-logs") &&
+  (document.documentElement.getAttribute("general-logs") === "true" ||
+    document.documentElement.getAttribute("general-logs") == "");
+
 globalThis.controlLogs =
   document.documentElement.hasAttribute("control-logs") &&
   (document.documentElement.getAttribute("control-logs") === "true" ||
     document.documentElement.getAttribute("control-logs") == ""); // if true, console logs are enabled
+
 globalThis.controlsInitialized = false;
 (async () => {
   // Initialize features
