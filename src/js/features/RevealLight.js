@@ -12,7 +12,7 @@ export default class RevealLight {
 
   static init(options = {}) {
     if (this.#initialized) {
-      if (debug) console.warn("RevealLight was already initialized.");
+      if (generalLogs) console.warn("RevealLight was already initialized.");
       return;
     }
 
@@ -41,7 +41,7 @@ export default class RevealLight {
 
     this.#initialized = true;
 
-    if (debug) {
+    if (generalLogs) {
       console.log("[RevealLight] Successfuly initialized", config);
     }
   }
