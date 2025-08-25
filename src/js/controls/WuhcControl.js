@@ -1,4 +1,4 @@
-import { toPascalCase } from "../core/Utilities.js";
+import Utilities from "../core/Utilities.js";
 import Binding from "../features/BindingEngine.js";
 import PropertyChanged from "../features/Events/PropertyChanged.js";
 
@@ -102,13 +102,13 @@ export default class WuhcControl extends HTMLElement {
     }
     if (newValue.startsWith("{") && newValue.endsWith("}")) {
       if (controlsInitialized)
-        Binding.create(this, newValue, toPascalCase(name));
+        Binding.create(this, newValue, Utilities.ToPascalCase(name));
       else
         addEventListener("ControlsInitialized", () =>
-          Binding.create(this, newValue, toPascalCase(name))
+          Binding.create(this, newValue, Utilities.ToPascalCase(name))
         );
     }
-    const functionName = "Update" + toPascalCase(name);
+    const functionName = "Update" + Utilities.ToPascalCase(name);
     if (this[functionName]) this[functionName]();
     else if (controlLogs) console.error("Unknow propery name:", name);
   }
