@@ -1,274 +1,135 @@
+import CalculateProgress from "../features/CalculateProgress.js";
+import WuhcControl from "./WuhcControl.js";
+
 /**
  * `Windows.UI.Html.Controls.ProgressBar`
  *
- * Web version of Checkbox from Windows 10
+ * Web version of ProgressBar from Windows 10
  */
-export default class ProgressBar extends HTMLElement {
+export default class ProgressBar extends WuhcControl {
   constructor() {
     super();
-    /** @type {boolean} Avoid multiple initializations */
-    this._initialized = false;
+    this.internals = this.attachInternals();
+    // this.internals.states.add("Indeterminate")
+    // this.internals.states.add("Determinate")
   }
-  /** Static method that defines the observed attributes
-   * @returns {string[]} List of observed attributes */
-  static get observedAttributes() {
-    return [
-      "width",
-      "height",
-      "foreground",
-      "value",
-      "isindeterminate",
-      "maximum",
-      "minimum",
-    ];
-  }
-  get Background() {
-    return (
-      this.getAttribute("background") ||
-      this.style.getPropertyValue("--SystemControlBackgroundBaseLowBrush") ||
-      "var(--SystemControlBackgroundBaseLowBrush)" ||
-      "#0003"
-    );
-  }
-  set Background(string) {
-    this.setAttribute(
-      "background",
-      string.toString() ||
-        this.style.getPropertyValue("--SystemControlBackgroundBaseLowBrush") ||
-        "var(--SystemControlBackgroundBaseLowBrush)" ||
-        "#0003"
-    );
-  }
-  get Foreground() {
-    return this.getAttribute("foreground") || "var(--SystemAccentColor)";
-  }
-  set Foreground(string) {
-    this.setAttribute(
-      "foreground",
-      string.toString() || "var(--SystemAccentColor)"
-    );
-  }
-  get Height() {
-    return (
-      this.getAttribute("height") ||
-      this.style.getPropertyValue("--ProgressBarThemeMinHeight") ||
-      this.clientHeight ||
-      "4"
-    );
-  }
-  set Height(number) {
-    this.setAttribute("height", `${number}`);
-  }
+  static extraObsvedAttrbs = ["value", "is-indeterminate"];
+  _isIndeterminate;
+  _maximum;
+  _minimum;
+  _value;
   get IsIndeterminate() {
-    return this.getAttribute("isindeterminate") === "true" ? true : false;
+    return this._isIndeterminate;
   }
   set IsIndeterminate(boolean) {
-    this.setAttribute("isindeterminate", `${boolean}`);
+    const oldValue = this._isIndeterminate;
+    this._isIndeterminate = boolean;
+    this.propertyChanged("IsIndeterminate", oldValue, boolean);
   }
   get Maximum() {
-    return Number(this.getAttribute("maximum")) || 100;
+    return this._maximum;
   }
-  set Maximum(value) {
-    this.setAttribute("maximum", `${value}`);
+  set Maximum(number) {
+    const oldValue = this._maximum;
+    this._maximum = boolean;
+    this.propertyChanged("IsIndeterminate", oldValue, number);
   }
   get Minimum() {
-    return Number(this.getAttribute("minimum")) || 0;
+    return this._minimum;
   }
   set Minimum(number) {
-    this.setAttribute("minimum", `${number}`);
+    const oldValue = this._minimum;
+    this._minimum = number;
+    this.propertyChanged("IsIndeterminate", oldValue, number);
   }
   get Value() {
-    return Number(this.getAttribute("value")) || 0;
+    return this._value;
   }
   set Value(number) {
-    this.setAttribute("value", `${number}`);
+    const oldValue = this._value;
+    this._value = number;
+    this.propertyChanged("Value", oldValue, number);
   }
-  get Width() {
-    return Number(this.getAttribute("width")) || this.clientWidth || null;
-  }
-  set Width(number) {
-    this.setAttribute("width", `${number}` || null);
-  }
-  /** Called when the element is connected to the DOM */
-  connectedCallback() {
-    if (this._initialized) return;
-    if (debug)
-      console.log(
-        `${this.connectedCallback.name}: Control initialized to`,
-        this
-      );
-    this.#InitalizeControl();
-    this.#UpdateForeground();
-    this._initialized = true;
-  }
-  /** Called when an observed attribute of the element is changed
-   * @param {string} name - Name of the changed attribute
-   * @param {string} oldValue - Old value of the attribute
-   * @param {string} newValue - New value of the attribute */
-  attributeChangedCallback(name, oldValue, newValue) {
-    if (debug) {
-      console.log(
-        `Attribute "${name}" changed from ${oldValue} to "${newValue}"`
-      );
+  UpdateIsIndeterminate() {
+    if (this._isIndeterminate) {
+      this.internals.states.delete("--determinate");
+      this.internals.states.add("--indeterminate");
+    } else {
+      this.internals.states.delete("--indeterminate");
+      this.internals.states.add("--determinate");
     }
-
-    const updates = {
-      background: () => this.#UpdateBackground(),
-      foreground: () => this.#UpdateForeground(),
-      height: () => this.#UpdateSizes(),
-      maximum: () => this.#UpdateMaximum(),
-      minimum: () => this.#UpdateMinimum(),
-      value: () => this.#UpdateValue(),
-      width: () => this.#UpdateSizes(),
-    };
-
-    if (updates[name]) updates[name]();
   }
-  #UpdateBackground() {
-    this.style.backgroundColor = this.Background;
-    if (debug) {
+  UpdateMaximum() {
+    if (controlLogs) {
       console.log(
-        `${this.#UpdateBackground.name}: Background color set to ${
-          this.Background
-        } on`,
+        `${this.UpdateMaximum.name}: Maximum value set to ${this._maximum} on`,
         this
       );
     }
+    this.ariaValueMax = `${this._maximum}`;
   }
-  #UpdateForeground() {
-    this.style.color = this.Foreground;
-  }
-  #UpdateMaximum() {
-    if (debug) {
+  UpdateMinimum() {
+    if (controlLogs) {
       console.log(
-        `${this.#UpdateMaximum.name}: Maximum value set to ${this.Maximum} on`,
+        `${this.UpdateMinimum.name}: Minimum value set to ${this._minimum} on`,
         this
       );
     }
-    this.ariaValueMax = `${this.Maximum}`;
+    this.ariaValueMin = `${this._minimum}`;
   }
-  #UpdateMinimum() {
-    if (debug) {
+  UpdateProgress() {
+    if (controlLogs) {
       console.log(
-        `${this.#UpdateMinimum.name}: Minimum value set to ${this.Minimum} on`,
+        `${this.UpdateValue.name}: Progress value set to ${this._value} in`,
         this
       );
     }
-    this.ariaValueMin = `${this.Minimum}`;
-  }
-  #UpdateSizes() {
-    this.style.width = `${this.Width}px`;
-    this.style.height = `${this.Height}px`;
-    if (debug) {
-      console.log(
-        `${this.#UpdateSizes.name}: Updated the width (${
-          this.Width
-        }px) and height (${this.Height}px) for`,
-        this
-      );
-    }
-  }
-  #UpdateValue() {
-    if (debug) {
-      console.log(
-        `${this.#UpdateValue.name}: Progress value set to ${this.Value} in`,
-        this
-      );
-    }
-    if (this.Value < this.Minimum) {
-      if (debug) {
+    if (this._value < this._minimum) {
+      if (controlLogs) {
         console.warn(
-          `${this.#UpdateValue.name}: The value ${
-            this.Value
-          } is less than the minimum ${this.Minimum}. Adjusting to the minimum.`
+          `${this.UpdateValue.name}: The value ${this._value} is less than the minimum ${this._minimum}. Adjusting to the minimum.`
         );
       }
-      this.setAttribute("value", `${this.Minimum}`);
+      this.setAttribute("value", `${this._minimum}`);
     }
-    if (this.Value > this.Maximum) {
-      if (debug) {
+    if (this._value > this._maximum) {
+      if (controlLogs) {
         console.warn(
-          `${this.#UpdateValue.name}: The value ${
-            this.Value
-          } is greater than the maximum ${
-            this.Maximum
-          }. Adjusting to the maximum.`
+          `${this.UpdateValue.name}: The value ${this._value} is greater than the maximum ${this._maximum}. Adjusting to the maximum.`
         );
       }
-      this.setAttribute("value", `${this.Maximum}`);
+      this.setAttribute("value", `${this._maximum}`);
     }
-    const percentage =
-      ((this.Value - this.Minimum) / (this.Maximum - this.Minimum)) * 100;
+    const percentage = CalculateProgress(
+      this._value,
+      this._minimum,
+      this._maximum
+    );
     this.style.setProperty("--value", `${percentage}%`);
-    this.ariaValueNow = `${this.Value}`;
+    this.ariaValueNow = `${this._value}`;
   }
-  #UpdateVisibility() {
-    //this function is temporarily empty
+  UpdateValue() {
+    this.UpdateProgress();
   }
-
-  #InitalizeControl() {
-    if (debug)
-      console.log(`${this.#InitalizeControl.name}: Initialized for`, this);
+  InitializeProperties() {
+    this._isIndeterminate =
+      this.getAttribute("isindeterminate") === "true" ? true : false;
+    this._maximum = Number(this.getAttribute("maximum")) || 100;
+    this._minimum = Number(this.getAttribute("minimum")) || 0;
+    this._value = Number(this.getAttribute("value")) || 0;
+  }
+  InitializeControl() {
+    if (controlLogs)
+      console.log(`${this.InitializeControl.name}: Initialized for`, this);
     // /** @type {string} HTML content of ProgressBar */
     const template = `<div id="IndeterminateRoot"><wuhc-border id="B5"><wuhc-ellipse id="E5"/></wuhc-border><wuhc-border id="B4"><wuhc-ellipse id="E4"/></wuhc-border><wuhc-border id="B3"><wuhc-ellipse id="E3"/></wuhc-border><wuhc-border id="B2"><wuhc-ellipse id="E2"/></wuhc-border><wuhc-border id="B1"><wuhc-ellipse id="E1"/></wuhc-border></div><wuhc-border id="DeterminateRoot"><wuhc-rectangle id="ProgressBarIndicator"></wuhc-rectangle></wuhc-border>`;
-    // const IndeterminateRoot = document.createElement("div");
-    // const DeterminateRoot = document.createElement("wuhc-border");
-
-    // const B5 = document.createElement("wuhc-border");
-    // const B4 = document.createElement("wuhc-border");
-    // const B3 = document.createElement("wuhc-border");
-    // const B2 = document.createElement("wuhc-border");
-    // const B1 = document.createElement("wuhc-border");
-
-    // const E5 = document.createElement("wuhc-ellipse");
-    // const E4 = document.createElement("wuhc-ellipse");
-    // const E3 = document.createElement("wuhc-ellipse");
-    // const E2 = document.createElement("wuhc-ellipse");
-    // const E1 = document.createElement("wuhc-ellipse");
-
-    // const ProgressBarIndicator = document.createElement("wuhc-rectangle");
-
-    // IndeterminateRoot.id = "IndeterminateRoot";
-    // DeterminateRoot.id = "DeterminateRoot";
-
-    // B5.id = "B5";
-    // B4.id = "B4";
-    // B3.id = "B3";
-    // B2.id = "B2";
-    // B1.id = "B1";
-
-    // E5.id = "E5";
-    // E4.id = "E4";
-    // E3.id = "E3";
-    // E2.id = "E2";
-    // E1.id = "E1";
-
-    // ProgressBarIndicator.id = "ProgressBarIndicator";
-
-    // this.appendChild(IndeterminateRoot);
-
-    // IndeterminateRoot.appendChild(B5);
-    // IndeterminateRoot.appendChild(B4);
-    // IndeterminateRoot.appendChild(B3);
-    // IndeterminateRoot.appendChild(B2);
-    // IndeterminateRoot.appendChild(B1);
-
-    // B1.appendChild(E1);
-    // B2.appendChild(E2);
-    // B3.appendChild(E3);
-    // B4.appendChild(E4);
-    // B5.appendChild(E5);
-
-    // this.appendChild(DeterminateRoot);
-    // DeterminateRoot.appendChild(ProgressBarIndicator);
-
     this.innerHTML = template;
     this.role = "progressbar";
     this.ariaAtomic = "true"; // Indicates that the value of the ProgressBar is updated dynamically
-    this.#UpdateSizes();
-    if (debug)
+    // this.#UpdateSizes();
+    if (controlLogs)
       console.log(
-        `${this.#InitalizeControl.name}: HTML embedded successfully in`,
+        `${this.InitializeControl.name}: HTML embedded successfully in`,
         this
       );
   }
