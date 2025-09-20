@@ -1,74 +1,48 @@
-import WuhcInputControl from "./WuhcInputControl.js";
+import WuhcControl from "./WuhcControl.js";
 
 /**
  * `Windows.UI.Html.Controls.Checkbox`
  *
  * Web version of Checkbox from Windows 10
  */
-export default class Checkbox extends WuhcInputControl {
+export default class Checkbox extends WuhcControl {
   constructor() {
     super();
     this.ContentPresenter = document.createElement("span");
+    this.enabledProperties.IsChecked = true;
+    this.enabledProperties.Content = true;
+    this.needsInputElement = true;
   }
 
-  static extraObsvedAttrbs = ["content", "is-checked"];
-  _isChecked;
-  _content;
-  get Content() {
-    return this._content;
-  }
-
-  set Content(text) {
-    const oldValue = this._content;
-    this._content = text;
-    this.propertyChanged("Content", oldValue, text);
-  }
-
-  get IsChecked() {
-    return this._isChecked;
-  }
-  set IsChecked(boolean) {
-    const oldValue = this._isChecked;
-    this._isChecked = boolean;
-    this.propertyChanged("IsChecked", oldValue, boolean);
-  }
   UpdateContent() {
-    this.ContentPresenter.textContent = this._content;
+    this.ContentPresenter.textContent = this._properties.Content;
   }
 
-  UpdateIsEnabled() {
-    this.inputElement.disabled = !this._isEnabled;
-  }
-  InitializeProperties() {
-    if (this._propertiesInitialized) return;
-    this._content =
-      this.getAttribute("content") || this.ContentPresenter.textContent || null;
-    this._isChecked = this.getAttribute("is-checked") === "true";
-  }
   UpdateIsChecked() {
     if (controlLogs) {
       console.log(
-        `${this.UpdateIsChecked.name}: IsChecked set to ${this._isChecked} on`,
+        `${this.UpdateIsChecked.name}: IsChecked set to ${this._properties.IsChecked} on`,
         this
       );
     }
-    this.inputElement.checked = this._isChecked;
-    this.ariaChecked = this._isChecked;
+    this.inputElement.checked = this._properties.IsChecked;
+    this.ariaChecked = this._properties.IsChecked;
   }
-  UpdateIschecked = () => this.UpdateIsChecked();
   InitializeControl() {
+    const name = this.getAttribute("x:name");
     const label = document.createElement("label");
     const rectangle = document.createElement("wuhc-rectangle");
     const checkmark = document.createElement("wuhc-fonticon");
     this.role = "checkbox";
     checkmark.setAttribute("icon", "CheckGlyph");
+    checkmark.ariaHidden = true;
+    this.inputElement.name = name;
     this.inputElement.type = "checkbox";
     this.appendChild(label);
     label.appendChild(this.inputElement);
     label.appendChild(rectangle);
     label.appendChild(this.ContentPresenter);
     rectangle.appendChild(checkmark);
-    this.IsChecked = this.inputElement.checked;
     this.inputElement.addEventListener(
       "input",
       () => (this.IsChecked = this.inputElement.checked)
