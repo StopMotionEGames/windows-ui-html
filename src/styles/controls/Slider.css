@@ -1,5 +1,5 @@
 wuhc-slider {
-  display: block;
+  display: inline-block;
 
   input {
     appearance: none;
