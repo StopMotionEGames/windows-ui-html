@@ -1,5 +1,5 @@
 wuhc-textbox {
-  display: flex;
+  display: inline-block;
   background-color: var(--TextControlBackground);
   border-color: var(--TextControlBorderBrush);
   border-width: var(--TextControlBorderThemeThickness);
@@ -14,8 +14,10 @@ wuhc-textbox {
     outline: none !important;
     width: stretch;
     height: stretch;
+    width: -webkit-fill-available;
+    height: -webkit-fill-available;
     width: -moz-available;
-    width: -moz-available;
+    height: -moz-available;
     font-family: var(--ContentControlThemeFontFamily);
     font-size: var(--ControlContentThemeFontSize);
     padding: var(--TextControlThemePadding);
