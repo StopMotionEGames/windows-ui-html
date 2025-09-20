@@ -62,7 +62,7 @@ wuhc-progressbar {
     background-color: currentColor;
   }
 
-  &:state(--indeterminate) {
+  &:state(indeterminate) {
     #DeterminateRoot {
       display: none;
       visibility: collapse;
