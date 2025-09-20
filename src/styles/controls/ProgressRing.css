@@ -1,6 +1,5 @@
 wuhc-progressring {
   --anim-template: 4.305s linear infinite;
-  overflow: hidden;
   container-name: ProgressRing;
   container-type: size;
   min-width: 20px;
@@ -35,7 +34,7 @@ wuhc-progressring {
     }
   }
 
-  &[isactive="true" i] {
+  &:state(actived) {
     #E1R {
       animation: var(--anim-template) E1R;
     }
