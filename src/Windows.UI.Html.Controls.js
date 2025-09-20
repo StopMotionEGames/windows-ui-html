@@ -1,9 +1,3 @@
-globalThis.timeLogs =
-  document.documentElement.hasAttribute("time-logs") &&
-  (document.documentElement.getAttribute("time-logs") === "true" ||
-    document.documentElement.getAttribute("time-logs") == "");
-
-if (timeLogs) console.time("Windows.UI.Html finished loading");
 import Button from "./js/controls/Button.js";
 import Checkbox from "./js/controls/CheckBox.js";
 import ProgressBar from "./js/controls/ProgressBar.js";
@@ -16,6 +10,12 @@ import PlatformFilter from "./js/features/PlatformFilter.js";
 import RevealLight from "./js/features/RevealLight.js";
 import WuhcNodeRegistry from "./js/features/WuhcNodeRegistry.js";
 
+globalThis.timeLogs =
+  document.documentElement.hasAttribute("time-logs") &&
+  (document.documentElement.getAttribute("time-logs") === "true" ||
+    document.documentElement.getAttribute("time-logs") == "");
+
+if (timeLogs) console.time("Windows.UI.Html finished loading");
 globalThis.generalLogs =
   document.documentElement.hasAttribute("general-logs") &&
   (document.documentElement.getAttribute("general-logs") === "true" ||
@@ -24,13 +24,11 @@ globalThis.generalLogs =
 globalThis.controlLogs =
   document.documentElement.hasAttribute("control-logs") &&
   (document.documentElement.getAttribute("control-logs") === "true" ||
-    document.documentElement.getAttribute("control-logs") == ""); // if true, console logs are enabled
+    document.documentElement.getAttribute("control-logs") == "");
 
 globalThis.controlsInitialized = false;
-(async () => {
-  // Initialize features
-  WuhcNodeRegistry.init();
 
+(async () => {
   const styles = [
     "themes/Common",
     "themes/Colors",
@@ -47,15 +45,17 @@ globalThis.controlsInitialized = false;
     "controls/Slider",
     "controls/TextBox",
   ];
-  loadStyles(styles);
+  loadStyles(styles);  
+  // Initialize features
+  WuhcNodeRegistry.init();
   if (timeLogs) console.time("Controls initialized in");
-  customElements.define("wuhc-button", Button, { extends: "button" });
+  customElements.define("wuhc-button", Button);
   customElements.define("wuhc-checkbox", Checkbox);
   customElements.define("wuhc-progressbar", ProgressBar);
   customElements.define("wuhc-progressring", ProgressRing);
   customElements.define("wuhc-slider", Slider);
   customElements.define("wuhc-textbox", TextBox);
-  globalThis.controlsInitialized = true;
+  controlsInitialized = true;
   if (timeLogs) console.timeEnd("Controls initialized in");
 
   dispatchEvent(new Event("ControlsInitialized"));
