@@ -46,11 +46,7 @@ export default class Binding {
     };
 
     const sourceHandler = (e) => {
-      if (
-        e.detail.propertyName !== sourceProperty ||
-        e.detail.oldValue === e.detail.newValue
-      )
-        return;
+      if (e.detail.propertyName !== sourceProperty) return;
       if (targetProperty in wuhc_nodes[elementName])
         wuhc_nodes[elementName][targetProperty] = e.detail.newValue;
       else console.warn("Unknown targetPropery name", targetProperty);
@@ -102,7 +98,6 @@ export default class Binding {
     document.querySelectorAll("*").forEach((el) => {
       if (el.attributes.length == 0) return;
       for (let i = 0; i < el.attributes.length; i++) {
-        if (timeLogs) console.time("node processed in");
         const value = el.attributes.item(i).value;
 
         if (
@@ -113,7 +108,6 @@ export default class Binding {
           const sourceProperty = el.attributes.item(i).name;
           this.create(el, value, sourceProperty);
         }
-        if (timeLogs) console.timeEnd("node processed in");
       }
     });
   }
