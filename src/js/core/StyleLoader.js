@@ -1,15 +1,12 @@
 export default async function loadStyles(styles) {
-  const stylesDir = "http://" + location.hostname + ":5500" + "/src/styles/";
+  const stylesDir = globalThis._wuhc_settings_["css-path"];
 
   const isChromeWithVersion123OrHigher = (() => {
     const match = navigator.userAgent.match(/Chrome\/(\d+)/);
     return match && parseInt(match[1], 10) >= 123;
   })();
 
-  if (
-    !/Firefox|Safari/.test(navigator.userAgent) ||
-    isChromeWithVersion123OrHigher
-  ) {
+  if (isChromeWithVersion123OrHigher) {
     for (const style of styles) {
       try {
         if (timeLogs) console.time(`Loaded ${style}.css`);
