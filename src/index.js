@@ -10,22 +10,30 @@ import PlatformFilter from "./js/features/PlatformFilter.js";
 import RevealLight from "./js/features/RevealLight.js";
 import WuhcNodeRegistry from "./js/features/WuhcNodeRegistry.js";
 
-globalThis.timeLogs =
-  document.documentElement.hasAttribute("time-logs") &&
-  (document.documentElement.getAttribute("time-logs") === "true" ||
-    document.documentElement.getAttribute("time-logs") == "");
+try {
+  const response = await fetch("/Wuhc.Config.json");
+  const config = await response.json();
 
+  globalThis.timeLogs = config["logs"]["time-logs"] ? true : false;
+
+  globalThis.generalLogs = config["logs"]["general-logs"] ? true : false;
+
+  globalThis.controlLogs = config["logs"]["control-logs"] ? true : false;
+
+  globalThis._wuhc_settings_ = { "css-path": config["css-path"] ? config["css-path"] : "/src/css" };
+} catch (e) {
+  console.log("Could not load settings. Default values will be used");
+  console.error(e);
+
+  globalThis.timeLogs = false;
+
+  globalThis.generalLogs = false;
+
+  globalThis.controlLogs = false;
+
+  globalThis._wuhc_settings_ = { "css-path": "/src/css" };
+}
 if (timeLogs) console.time("Windows.UI.Html finished loading");
-globalThis.generalLogs =
-  document.documentElement.hasAttribute("general-logs") &&
-  (document.documentElement.getAttribute("general-logs") === "true" ||
-    document.documentElement.getAttribute("general-logs") == "");
-
-globalThis.controlLogs =
-  document.documentElement.hasAttribute("control-logs") &&
-  (document.documentElement.getAttribute("control-logs") === "true" ||
-    document.documentElement.getAttribute("control-logs") == "");
-
 globalThis.controlsInitialized = false;
 
 (async () => {
@@ -45,7 +53,7 @@ globalThis.controlsInitialized = false;
     "controls/Slider",
     "controls/TextBox",
   ];
-  loadStyles(styles);  
+  loadStyles(styles);
   // Initialize features
   WuhcNodeRegistry.init();
   if (timeLogs) console.time("Controls initialized in");
