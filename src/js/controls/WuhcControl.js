@@ -181,7 +181,7 @@ export default class WuhcControl extends HTMLElement {
     );
     this.ariaValueNow = `${this._properties.Value}`;
   }
-  UpdateText(){
+  UpdateText() {
     this.inputElement.value = this._properties.Text;
   }
   UpdateValue() {
@@ -256,6 +256,17 @@ export default class WuhcControl extends HTMLElement {
               ? false
               : true;
           this._properties.IsEnabled = newValue;
+          this.propertyChanged(name, undefined, newValue);
+          break;
+        }
+        case "IsIndeterminate": {
+          const newValue =
+            this.getAttribute("is-indeterminate") == "true"
+              ? true
+              : this.getAttribute("is-indeterminate") == "false"
+              ? false
+              : true;
+          this._properties.IsIndeterminate = newValue;
           this.propertyChanged(name, undefined, newValue);
           break;
         }
