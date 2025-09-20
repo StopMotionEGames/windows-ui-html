@@ -112,6 +112,19 @@ export default class Utilities {
       .replace(/[-_\s]+(.)?/g, (_, char) => (char ? char.toUpperCase() : "")) // Captalize the first letter after separator and remove it
       .replace(/^\w/, (char) => char.toUpperCase()); // Captalize the first letter of string
   }
+  /** Converts a Pascal Case string to attribute name format.
+   *
+   * ---
+   * Example: "IsActive" => "is-active"
+   *
+   * @param {string} str
+   * @returns {string}
+   */
+  static ToAttributeName(str) {
+    return str
+      .replace(/([a-z])([A-Z])/g, "$1-$2") // Insert dashes between lowercase and uppercase letters
+      .toLowerCase(); // Convert entire string to lower case
+  }
   static CalculateProgress(value, min, max) {
     if (max - min === 0) return 0;
     return ((value - min) / (max - min)) * 100;
