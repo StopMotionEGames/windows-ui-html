@@ -1,6 +1,10 @@
-button[is="wuhc-button"] {
-  --border-width: var(--ButtonBorderThemeThickness);
+wuhc-button {
+  user-select: none;
   display: inline-block;
+  box-sizing: border-box;
+  text-align: center;
+  align-content: center;
+  --border-width: var(--ButtonBorderThemeThickness);
   background-color: var(--ButtonBackground);
   color: var(--ButtonForeground);
   border-color: var(--ButtonBorderBrush);
@@ -19,7 +23,8 @@ button[is="wuhc-button"] {
     color: var(--ButtonForegroundPointerOver);
   }
 
-  &:active:not(:disabled) {
+  &:active:not(:state(disabled)),
+  &:state(active):not(:state(disabled)) {
     background-color: var(--ButtonBackgroundPressed);
     border-color: var(--ButtonBorderBrushPressed);
     color: var(--ButtonForegroundPressed);
@@ -27,9 +32,10 @@ button[is="wuhc-button"] {
     transition: scale 0s linear;
   }
 
-  &:disabled {
+  &:state(disabled) {
     background-color: var(--ButtonBackgroundDisabled);
     border-color: var(--ButtonBorderBrushDisabled);
     color: var(--ButtonForegroundDisabled);
   }
+
 }
