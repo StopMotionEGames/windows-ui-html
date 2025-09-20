@@ -1,0 +1,9 @@
+{
+  "logs": {
+    "time-logs": true,
+    "control-logs": false,
+    "general-logs": false
+  },
+
+  "css-folder": "/src/css"
+}
