@@ -22,7 +22,6 @@ export default class WuhcControl extends HTMLElement {
       Width: true,
     };
     this.inputElement = document.createElement("input");
-    this.internals = this.attachInternals();
     this.needsInputElement = false;
     this.needsInternals = false;
   }
@@ -67,11 +66,12 @@ export default class WuhcControl extends HTMLElement {
     if (!this._propertiesInitialized) this.#InitializeProperties();
     this.#InitializeEventListeners();
     this.InitializeControl();
+
     this._controlInitialized = true;
     if (controlLogs)
       console.log(
         `${this.connectedCallback.name}: Control initialized to`,
-        this
+        this,
       );
   }
   /** Called when an observed attribute of the element is changed
@@ -82,7 +82,7 @@ export default class WuhcControl extends HTMLElement {
     if (newValue === oldValue) return;
     if (controlLogs) {
       console.log(
-        `Attribute "${name}" changed from ${oldValue} to "${newValue}"`
+        `Attribute "${name}" changed from ${oldValue} to "${newValue}"`,
       );
     }
     if (this._propertiesInitialized === false) this.#InitializeProperties();
@@ -104,7 +104,7 @@ export default class WuhcControl extends HTMLElement {
       else if (controlLogs)
         console.error(
           "Unknow propery name from propertyChanged:",
-          propertyName
+          propertyName,
         );
     });
   }
@@ -113,7 +113,7 @@ export default class WuhcControl extends HTMLElement {
     if (controlLogs) {
       console.log(
         `${this.UpdateBackground.name}: Background color set to ${this._properties.Background} on`,
-        this
+        this,
       );
     }
   }
@@ -144,7 +144,7 @@ export default class WuhcControl extends HTMLElement {
     if (controlLogs) {
       console.log(
         `${this.UpdateSizes.name}: Updated the width (${this._properties.Width}px) and height (${this._properties.Height}px) to`,
-        this
+        this,
       );
     }
   }
@@ -152,13 +152,13 @@ export default class WuhcControl extends HTMLElement {
     if (controlLogs) {
       console.log(
         `${this.UpdateValue.name}: Progress value set to ${this._properties.Value} in`,
-        this
+        this,
       );
     }
     if (this._properties.Value < this._properties.Minimum) {
       if (controlLogs) {
         console.warn(
-          `${this.UpdateValue.name}: The value ${this._properties.Value} is less than the minimum ${this._properties.Minimum}. Adjusting to the minimum.`
+          `${this.UpdateValue.name}: The value ${this._properties.Value} is less than the minimum ${this._properties.Minimum}. Adjusting to the minimum.`,
         );
       }
       this._properties.Value = this._properties.Minimum;
@@ -166,7 +166,7 @@ export default class WuhcControl extends HTMLElement {
     if (this._properties.Value > this._properties.Maximum) {
       if (controlLogs) {
         console.warn(
-          `${this.UpdateValue.name}: The value ${this._properties.Value} is greater than the maximum ${this._properties.Maximum}. Adjusting to the maximum.`
+          `${this.UpdateValue.name}: The value ${this._properties.Value} is greater than the maximum ${this._properties.Maximum}. Adjusting to the maximum.`,
         );
       }
       this._properties.Value = this._properties.Maximum;
@@ -176,8 +176,8 @@ export default class WuhcControl extends HTMLElement {
       `${Utilities.CalculateProgress(
         this._properties.Value,
         this._properties.Minimum,
-        this._properties.Maximum
-      )}%`
+        this._properties.Maximum,
+      )}%`,
     );
     this.ariaValueNow = `${this._properties.Value}`;
   }
@@ -192,6 +192,11 @@ export default class WuhcControl extends HTMLElement {
 
   #InitializeProperties() {
     if (this._propertiesInitialized) return;
+
+    if (this.needsInternals && !this.internals) {
+      this.internals = this.attachInternals();
+    }
+
     let excs = 0;
     let names = [];
     for (let name in this.enabledProperties) {
@@ -231,19 +236,14 @@ export default class WuhcControl extends HTMLElement {
             this.getAttribute("is-active") == "true"
               ? true
               : this.getAttribute("is-active") == "false"
-              ? false
-              : true;
+                ? false
+                : true;
           this._properties.IsActive = newValue;
           this.propertyChanged(name, undefined, newValue);
           break;
         }
         case "IsChecked": {
-          const newValue =
-            this.getAttribute("is-checked") == "true"
-              ? true
-              : this.getAttribute("is-checked") == "false"
-              ? false
-              : true;
+          const newValue = this.getAttribute("is-checked");
           this._properties.IsChecked = newValue;
           this.propertyChanged(name, undefined, newValue);
           break;
@@ -253,8 +253,8 @@ export default class WuhcControl extends HTMLElement {
             this.getAttribute("is-enabled") == "true"
               ? true
               : this.getAttribute("is-enabled") == "false"
-              ? false
-              : true;
+                ? false
+                : true;
           this._properties.IsEnabled = newValue;
           this.propertyChanged(name, undefined, newValue);
           break;
@@ -264,8 +264,8 @@ export default class WuhcControl extends HTMLElement {
             this.getAttribute("is-indeterminate") == "true"
               ? true
               : this.getAttribute("is-indeterminate") == "false"
-              ? false
-              : true;
+                ? false
+                : true;
           this._properties.IsIndeterminate = newValue;
           this.propertyChanged(name, undefined, newValue);
           break;
@@ -319,8 +319,8 @@ export default class WuhcControl extends HTMLElement {
     if (!controlsInitialized)
       addEventListener("ControlsInitialized", () =>
         this.dispatchEvent(
-          new PropertyChanged(propertyName, oldValue, newValue)
-        )
+          new PropertyChanged(propertyName, oldValue, newValue),
+        ),
       );
     else
       this.dispatchEvent(new PropertyChanged(propertyName, oldValue, newValue));

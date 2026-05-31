@@ -95,7 +95,7 @@ export default class Binding {
     this.bindings.get(sourceObject).delete(bindingKey);
   }
   static #processElements() {
-    document.querySelectorAll("*").forEach((el) => {
+      document.querySelectorAll("*").forEach((el) => {
       if (el.attributes.length == 0) return;
       for (let i = 0; i < el.attributes.length; i++) {
         const value = el.attributes.item(i).value;

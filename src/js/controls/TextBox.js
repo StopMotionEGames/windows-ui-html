@@ -9,6 +9,7 @@ export default class TextBox extends WuhcControl {
   constructor() {
     super();
     this.needsInputElement = true;
+    this.needsInternals = true;
     this.enabledProperties.Text = true;
     this.header = document.createElement("wuhc-textblock");
     this.description = document.createElement("wuhc-textblock");
@@ -16,6 +17,8 @@ export default class TextBox extends WuhcControl {
   }
 
   InitializeControl() {
+    this.addEventListener("focusin", () => this.setAttribute("requestedtheme", "Light"));
+    this.addEventListener("focusout", () => this.removeAttribute("requestedtheme"));
     this.inputElement.type = "text";
     this.appendChild(this.inputElement);
     if (controlLogs)

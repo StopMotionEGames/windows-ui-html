@@ -1,28 +1,47 @@
 wuhc-textbox {
-  display: inline-block;
-  background-color: var(--TextControlBackground);
-  border-color: var(--TextControlBorderBrush);
-  border-width: var(--TextControlBorderThemeThickness);
-  border-style: solid;
-
-  &::selection {
-    background-color: var(--TextControlSelectionHighlightColor);
-  }
-  
-  input {
     display: inline-block;
-    outline: none !important;
-    width: stretch;
-    height: stretch;
-    width: -webkit-fill-available;
-    height: -webkit-fill-available;
-    width: -moz-available;
-    height: -moz-available;
-    font-family: var(--ContentControlThemeFontFamily);
-    font-size: var(--ControlContentThemeFontSize);
-    padding: var(--TextControlThemePadding);
-    border: none;
-    background: none;
+    background-color: var(--TextControlBackground);
+    border-color: var(--TextControlBorderBrush);
+    border-width: var(--TextControlBorderThemeThickness);
+    border-style: solid;
     color: var(--TextControlForeground);
-  }
+
+    &::selection {
+        background-color: var(--TextControlSelectionHighlightColor);
+    }
+
+    &:state(disabled) {
+        background-color: var(--TextControlBackgroundDisabled);
+        border-color: var(--TextControlBorderBrushDisabled);
+        color: var(--TextControlForegroundDisabled);
+    }
+
+    &:hover {
+        border-color: var(--TextControlBorderBrushPointerOver);
+        background-color: var(--TextControlBackgroundPointerOver);
+        color: var(--TextControlForegroundPointerOver);
+    }
+
+    &:focus-within {
+        background-color: var(--TextControlBackgroundFocused);
+        border-color: var(--TextControlBorderBrushFocused);
+        color: var(--TextControlForegroundFocused);
+    }
+
+    input {
+        display: inline-block;
+        outline: none !important;
+        width: stretch;
+        height: stretch;
+        width: -webkit-fill-available;
+        height: -webkit-fill-available;
+        width: -moz-available;
+        height: -moz-available;
+        font-family: var(--ContentControlThemeFontFamily);
+        font-size: var(--ControlContentThemeFontSize);
+        padding: var(--TextControlThemePadding);
+        border: none;
+        background: none;
+        color: inherit;
+    }
 }

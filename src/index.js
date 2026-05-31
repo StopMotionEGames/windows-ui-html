@@ -10,29 +10,12 @@ import PlatformFilter from "./js/features/PlatformFilter.js";
 import RevealLight from "./js/features/RevealLight.js";
 import WuhcNodeRegistry from "./js/features/WuhcNodeRegistry.js";
 
-try {
-  const response = await fetch("/Wuhc.Config.json");
-  const config = await response.json();
+globalThis.timeLogs = true;
 
-  globalThis.timeLogs = config["logs"]["time-logs"] ? true : false;
+globalThis.generalLogs = true;
 
-  globalThis.generalLogs = config["logs"]["general-logs"] ? true : false;
+globalThis.controlLogs = true;
 
-  globalThis.controlLogs = config["logs"]["control-logs"] ? true : false;
-
-  globalThis._wuhc_settings_ = { "css-path": config["css-path"] ? config["css-path"] : "/src/css" };
-} catch (e) {
-  console.log("Could not load settings. Default values will be used");
-  console.error(e);
-
-  globalThis.timeLogs = false;
-
-  globalThis.generalLogs = false;
-
-  globalThis.controlLogs = false;
-
-  globalThis._wuhc_settings_ = { "css-path": "/src/css" };
-}
 if (timeLogs) console.time("Windows.UI.Html finished loading");
 globalThis.controlsInitialized = false;
 
@@ -66,9 +49,11 @@ globalThis.controlsInitialized = false;
   controlsInitialized = true;
   if (timeLogs) console.timeEnd("Controls initialized in");
 
-  dispatchEvent(new Event("ControlsInitialized"));
+  window.dispatchEvent(new Event("ControlsInitialized"));
   Binding.init();
   RevealLight.init();
   PlatformFilter.init();
   if (timeLogs) console.timeEnd("Windows.UI.Html finished loading");
+  window.dispatchEvent(new Event("Wuhc.FullyStarted"));
+
 })();

@@ -1,157 +1,171 @@
 wuhc-checkbox {
-  display: flex;
-  align-items: center;
-  width: fit-content;
-  
-  label {
     display: flex;
-    justify-content: flex-start;
     align-items: center;
-    position: relative;
-    height: 100%;
-    min-height: 32px;
-    min-width: 120px;
+    width: fit-content;
 
-    span {
-      margin-left: 8px;
-    }
-  }
+    label {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        position: relative;
+        height: 100%;
+        min-height: 32px;
+        min-width: 120px;
 
-  wuhc-rectangle {
-    position: relative;
-    display: flex;
-    height: 20px;
-    width: 20px;
-    align-items: center;
-
-    wuhc-fonticon {
-      font-size: 20px;
-      visibility: collapse;
-    }
-
-    &::before {
-      content: '';
-      position: absolute;
-      display: block;
-      width: calc(100% - var(--CheckBoxBorderThemeThickness) * 2);
-      height: calc(100% - var(--CheckBoxBorderThemeThickness) * 2);
-      border-width: var(--CheckBoxBorderThemeThickness);
-      border-style: solid;
-      pointer-events: none;
-    }
-
-  }
-
-  span {
-    color: var(--CheckBoxForegroundUnchecked);
-  }
-
-  input {
-    display: inline-block;
-    appearance: none;
-    pointer-events: none;
-    position: absolute;
-    margin: 0;
-    width: 100%;
-    height: 100%;
-
-    &:hover:not(:disabled) {
-      &:not(:checked) {
-        &~span {
-          color: var(--CheckBoxForegroundUncheckedPointerOver);
+        span {
+            margin-left: 8px;
         }
-
-        &~wuhc-rectangle {
-          background-color: var(--CheckBoxCheckBackgroundFillUncheckedPointerOver);
-
-          wuc-fonticon {
-            color: var(--CheckBoxCheckGlyphForegroundUncheckedPointerOver);
-          }
-
-          &::before {
-            border-color: var(--CheckBoxCheckBackgroundStrokeUncheckedPointerOver);
-          }
-        }
-      }
-      &:checked {
-        &~span {
-          color: var(--CheckBoxForegroundCheckedPointerOver);
-        }
-
-        &~wuhc-rectangle {
-          background-color: var(--CheckBoxCheckBackgroundFillCheckedPointerOver);
-
-          wuc-fonticon {
-            color: var(--CheckBoxCheckGlyphForegroundCheckedPointerOver);
-          }
-
-          &::before {
-            border-color: var(--CheckBoxCheckBackgroundStrokeCheckedPointerOver);
-          }
-        }
-      }
     }
 
-    &:checked~wuhc-rectangle {
-      background-color: var(--SystemControlHighlightAccentBrush);
-
-      wuhc-fonticon {
-        visibility: visible;
-      }
-
-      &::before {
-        border-color: var(--SystemControlHighlightAltTransparentBrush);
-      }
-    }
-
-    &:not(:checked)~wuhc-rectangle {
-      background-color: var(--CheckBoxCheckBackgroundFillUnchecked);
-
-      wuhc-fonticon {
-        color: var(--CheckBoxCheckGlyphForegroundUnchecked);
-      }
-
-      &::before {
-        border-color: var(--CheckBoxCheckBackgroundStrokeUnchecked);
-      }
-    }
-
-    &:active:focus:not(:disabled) {
-      ~wuhc-rectangle {
-        background-color: var(--SystemControlBackgroundBaseMediumBrush);
-
-        &::before {
-          border-color: var(--SystemControlHighlightTransparentBrush);
-        }
-      }
-    }
-
-    &:active:hover:not(:disabled) {
-      ~wuhc-rectangle {
-        background-color: var(--SystemControlBackgroundBaseMediumBrush);
-
-        &::before {
-          border-color: var(--SystemControlHighlightTransparentBrush);
-        }
-      }
-    }
-
-    &:disabled {
-      ~wuhc-rectangle {
-        background-color: transparent;
+    wuhc-rectangle {
+        position: relative;
+        display: flex;
+        height: 20px;
+        width: 20px;
+        align-items: center;
 
         wuhc-fonticon {
-          color: var(--SystemControlDisabledBaseMediumLowBrush);
+            font-size: 20px;
+            visibility: collapse;
         }
 
         &::before {
-          border-color: var(--SystemControlDisabledBaseMediumLowBrush);
+            content: "";
+            position: absolute;
+            display: block;
+            width: calc(100% - var(--CheckBoxBorderThemeThickness) * 2);
+            height: calc(100% - var(--CheckBoxBorderThemeThickness) * 2);
+            border-width: var(--CheckBoxBorderThemeThickness);
+            border-style: solid;
+            pointer-events: none;
         }
-      }
-
-      ~span {
-        color: var(--SystemControlDisabledBaseMediumLowBrush);
-      }
     }
-  }
+
+    span {
+        color: var(--CheckBoxForegroundUnchecked);
+    }
+
+    input {
+        display: inline-block;
+        appearance: none;
+        background-color: transparent;
+        pointer-events: none;
+        position: absolute;
+        margin: 0;
+        width: 100%;
+        height: 100%;
+
+        &:hover:not(:disabled) {
+            &:not(:checked) {
+                & ~ span {
+                    color: var(--CheckBoxForegroundUncheckedPointerOver);
+                }
+
+                & ~ wuhc-rectangle {
+                    background-color: var(
+                        --CheckBoxCheckBackgroundFillUncheckedPointerOver
+                    );
+
+                    wuhc-fonticon {
+                        color: var(
+                            --CheckBoxCheckGlyphForegroundUncheckedPointerOver
+                        );
+                    }
+
+                    &::before {
+                        border-color: var(
+                            --CheckBoxCheckBackgroundStrokeUncheckedPointerOver
+                        );
+                    }
+                }
+            }
+            &:checked {
+                & ~ span {
+                    color: var(--CheckBoxForegroundCheckedPointerOver);
+                }
+
+                & ~ wuhc-rectangle {
+                    background-color: var(
+                        --CheckBoxCheckBackgroundFillCheckedPointerOver
+                    );
+
+                    wuc-fonticon {
+                        color: var(
+                            --CheckBoxCheckGlyphForegroundCheckedPointerOver
+                        );
+                    }
+
+                    &::before {
+                        border-color: var(
+                            --CheckBoxCheckBackgroundStrokeCheckedPointerOver
+                        );
+                    }
+                }
+            }
+        }
+
+        &:checked ~ wuhc-rectangle {
+            background-color: var(--SystemControlHighlightAccentBrush);
+
+            wuhc-fonticon {
+                visibility: visible;
+            }
+
+            &::before {
+                border-color: var(--SystemControlHighlightAltTransparentBrush);
+            }
+        }
+
+        &:not(:checked) ~ wuhc-rectangle {
+            background-color: var(--CheckBoxCheckBackgroundFillUnchecked);
+
+            wuhc-fonticon {
+                color: var(--CheckBoxCheckGlyphForegroundUnchecked);
+            }
+
+            &::before {
+                border-color: var(--CheckBoxCheckBackgroundStrokeUnchecked);
+            }
+        }
+
+        &:active:focus:not(:disabled) {
+            ~ wuhc-rectangle {
+                background-color: var(--SystemControlBackgroundBaseMediumBrush);
+
+                &::before {
+                    border-color: var(--SystemControlHighlightTransparentBrush);
+                }
+            }
+        }
+
+        &:active:hover:not(:disabled) {
+            ~ wuhc-rectangle {
+                background-color: var(--SystemControlBackgroundBaseMediumBrush);
+
+                &::before {
+                    border-color: var(--SystemControlHighlightTransparentBrush);
+                }
+            }
+        }
+
+        &:disabled {
+            ~ wuhc-rectangle {
+                background-color: transparent;
+
+                wuhc-fonticon {
+                    color: var(--SystemControlDisabledBaseMediumLowBrush);
+                }
+
+                &::before {
+                    border-color: var(
+                        --SystemControlDisabledBaseMediumLowBrush
+                    );
+                }
+            }
+
+            ~ span {
+                color: var(--SystemControlDisabledBaseMediumLowBrush);
+            }
+        }
+    }
 }
